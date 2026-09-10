@@ -1,0 +1,13 @@
+# netlify.toml
+# This file exists specifically so we don't have to change a single line
+# in index.html. Netlify actually serves functions at /.netlify/functions/name,
+# but the platform's own code calls /api/name, exactly like it did on Vercel.
+# This redirect makes both addresses mean the same thing, transparently.
+
+[build]
+  functions = "netlify/functions"
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
+  status = 200
