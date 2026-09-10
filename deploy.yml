@@ -1,0 +1,27 @@
+name: Deploy to Netlify
+
+# This runs automatically every time you push to the main branch.
+# It uses a Netlify access token (generated from Netlify's own account
+# settings) instead of installing the "Netlify GitHub App" - so it never
+# touches the GitHub email-verification screen that's currently broken.
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Install Netlify's command-line tool
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: netlify deploy --prod --dir=.
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
